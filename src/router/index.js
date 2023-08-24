@@ -6,7 +6,7 @@ const routes = [
     path: '/',
     component: () => import('@/layouts/default/Default.vue'),
     children: [
-      {
+      { 
         path: '',
         name: 'Home',
         // route level code-splitting
@@ -14,6 +14,17 @@ const routes = [
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
       },
+      {
+        path: '/ServiceReport',
+        name: 'ServiceReport',
+        component: () => import('@/views/ServiceReport.vue')
+      }
+      ,
+      {
+        path: '/HopReport',
+        name: 'HopReport',
+        component: () => import('@/views/HopReport.vue')
+      }
     ],
   },
 ]

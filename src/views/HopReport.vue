@@ -1,9 +1,8 @@
 <template>
-    <h1>Hop Report</h1>
-    <HelloWorld />
+    <HopReports />
   </template>
   
   <script setup>
-    import HelloWorld from '@/components/HelloWorld.vue'
+    import HopReports from '@/components/HopReports.vue'
   </script>
   

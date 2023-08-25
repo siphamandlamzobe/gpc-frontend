@@ -1,125 +1,88 @@
 <template>
-    <v-container class="fill-height">
-        <v-responsive class="align-center text-center fill-height">
-            <h1 class="text-h2 font-weight-bold">Service Report</h1>
-            <div class="py-8" />
-            <v-row class="d-flex align-center justify-center">
-                <v-col cols="10">
-                    <v-data-table
-                    v-model:items-per-page="itemsPerPage"
-                    :headers="headers"
-                    :items="desserts"
-                    item-value="name"
-                    class="elevation-3"
-                    ></v-data-table>
-                </v-col>
-            </v-row>
-            
-        </v-responsive>
-    </v-container>
-    
-  </template>
-  <script>
-    export default {
-      data () {
-        return {
-          itemsPerPage: 10,
-          headers: [
-            {
-              title: 'Dessert (100g serving)',
-              align: 'start',
-              sortable: false,
-              key: 'name',
-            },
-            { title: 'Calories', align: 'end', key: 'calories' },
-            { title: 'Fat (g)', align: 'end', key: 'fat' },
-            { title: 'Carbs (g)', align: 'end', key: 'carbs' },
-            { title: 'Protein (g)', align: 'end', key: 'protein' },
-            { title: 'Iron (%)', align: 'end', key: 'iron' },
-          ],
-          desserts: [
-            {
-              name: 'Frozen Yogurt',
-              calories: 159,
-              fat: 6.0,
-              carbs: 24,
-              protein: 4.0,
-              iron: '1',
-            },
-            {
-              name: 'Jelly bean',
-              calories: 375,
-              fat: 0.0,
-              carbs: 94,
-              protein: 0.0,
-              iron: '0',
-            },
-            {
-              name: 'KitKat',
-              calories: 518,
-              fat: 26.0,
-              carbs: 65,
-              protein: 7,
-              iron: '6',
-            },
-            {
-              name: 'Eclair',
-              calories: 262,
-              fat: 16.0,
-              carbs: 23,
-              protein: 6.0,
-              iron: '7',
-            },
-            {
-              name: 'Gingerbread',
-              calories: 356,
-              fat: 16.0,
-              carbs: 49,
-              protein: 3.9,
-              iron: '16',
-            },
-            {
-              name: 'Ice cream sandwich',
-              calories: 237,
-              fat: 9.0,
-              carbs: 37,
-              protein: 4.3,
-              iron: '1',
-            },
-            {
-              name: 'Lollipop',
-              calories: 392,
-              fat: 0.2,
-              carbs: 98,
-              protein: 0,
-              iron: '2',
-            },
-            {
-              name: 'Cupcake',
-              calories: 305,
-              fat: 3.7,
-              carbs: 67,
-              protein: 4.3,
-              iron: '8',
-            },
-            {
-              name: 'Honeycomb',
-              calories: 408,
-              fat: 3.2,
-              carbs: 87,
-              protein: 6.5,
-              iron: '45',
-            },
-            {
-              name: 'Donut',
-              calories: 452,
-              fat: 25.0,
-              carbs: 51,
-              protein: 4.9,
-              iron: '22',
-            },
-          ],
-        }
-      },
-    }
-  </script>
+  <v-container class="fill-height">
+    <v-responsive class="fill-height py-8">
+      <h1 class="text-h2 font-weight-bold align-center text-center">
+        Service Report
+      </h1>
+      <div class="py-8" />
+
+      <v-row class="d-flex">
+        <v-col cols="10 mx-auto">
+          <div class="text-right align-end bg-red-2">
+            <v-btn prepend-icon="mdi-plus-circle">
+              <template v-slot:prepend>
+                <v-icon color="success"></v-icon>
+              </template>
+
+              Add New Report
+            </v-btn>
+          </div>
+        </v-col>
+      </v-row>
+      <v-row class="d-flex align-center justify-center">
+        <v-col cols="10">
+          <v-data-table
+            v-model:expanded="expanded"
+            :headers="serviceReportHeaders"
+            :items="serviceReports"
+            item-value="attendance"
+            show-expand
+            class="elevation-2"
+          >
+            <template v-slot:top>
+              <v-toolbar flat>
+                <v-toolbar-title>Service Reports</v-toolbar-title>
+              </v-toolbar>
+            </template>
+            <template v-slot:expanded-row="{ columns, item }">
+              <tr>
+                <td :colspan="columns.length">
+                  {{ item.raw.service_review }}
+                </td>
+              </tr>
+            </template>
+          </v-data-table>
+        </v-col>
+      </v-row>
+    </v-responsive>
+  </v-container>
+</template>
+
+<script>
+import axios from "axios";
+export default {
+  data() {
+    return {
+      expanded: [],
+      serviceReportHeaders: [
+        {
+          title: "Attendance",
+          align: "start",
+          sortable: true,
+          key: "attendance",
+        },
+        { title: "First Timers", key: "first_timers" },
+        { title: "Souls Saved", key: "souls_saved" },
+        { title: "Service Date", key: "service_date" },
+        { title: "", key: "data-table-expand" },
+      ],
+      serviceReports: [],
+    };
+  },
+  mounted() {
+    this.getServiceReports();
+  },
+  methods: {
+    getServiceReports() {
+      axios
+        .get("http://127.0.0.1:8000/api/v1/servicereport/?offset=0&limit=100")
+        .then((response) => {
+          this.serviceReports = response.data;
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    },
+  },
+};
+</script>

@@ -272,6 +272,8 @@ export default {
         Object.assign(this.hopReports[this.editedIndex], this.editedItem);
       } else {
         this.hopReports.push(this.editedItem);
+        this.editedItem.created_on = "2022-09-24T18:52:17.501216"
+        axios.post("http://127.0.0.1:8000/api/v1/hopreport/", this.editedItem)
       }
       this.close();
     },

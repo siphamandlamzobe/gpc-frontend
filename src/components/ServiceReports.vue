@@ -2,7 +2,7 @@
   <v-container class="fill-height">
     <v-responsive class="fill-height py-8">
       <h1 class="text-h2 font-weight-bold align-center text-center">
-        Service Report
+        Service Reports
       </h1>
       <div class="py-8" />
 

@@ -234,20 +234,22 @@ export default {
       this.editedIndex = this.hopReports.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
-      console.log(this.editedItem, 'this.editedItem ');
-      console.log(item, 'item ');
+      console.log(this.editedItem, "this.editedItem ");
+      console.log(item, "item ");
     },
 
     deleteItem(item) {
       this.editedIndex = this.hopReports.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      console.log(this.editedItem, 'this.editedItem ');
+      console.log(this.editedItem, "this.editedItem ");
       this.dialogDelete = true;
     },
 
     deleteItemConfirm() {
       this.hopReports.splice(this.editedIndex, 1);
-      axios.delete(`http://127.0.0.1:8000/api/v1/hopreport/{id}?int=${this.editedItem.id}`)
+      axios.delete(
+        `http://127.0.0.1:8000/api/v1/hopreport/{id}?int=${this.editedItem.id}`
+      );
       this.closeDelete();
     },
 
@@ -270,10 +272,14 @@ export default {
     save() {
       if (this.editedIndex > -1) {
         Object.assign(this.hopReports[this.editedIndex], this.editedItem);
+        axios.patch(
+          `http://127.0.0.1:8000/api/v1/hopreport/${this.editedItem.id}`,
+          this.editedItem
+        );
       } else {
         this.hopReports.push(this.editedItem);
-        this.editedItem.created_on = "2022-09-24T18:52:17.501216"
-        axios.post("http://127.0.0.1:8000/api/v1/hopreport/", this.editedItem)
+        this.editedItem.created_on = "2022-09-24T18:52:17.501216";
+        axios.post("http://127.0.0.1:8000/api/v1/hopreport/", this.editedItem);
       }
       this.close();
     },

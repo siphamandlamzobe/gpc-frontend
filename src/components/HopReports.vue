@@ -234,16 +234,20 @@ export default {
       this.editedIndex = this.hopReports.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
+      console.log(this.editedItem, 'this.editedItem ');
+      console.log(item, 'item ');
     },
 
     deleteItem(item) {
       this.editedIndex = this.hopReports.indexOf(item);
       this.editedItem = Object.assign({}, item);
+      console.log(this.editedItem, 'this.editedItem ');
       this.dialogDelete = true;
     },
 
     deleteItemConfirm() {
       this.hopReports.splice(this.editedIndex, 1);
+      axios.delete(`http://127.0.0.1:8000/api/v1/hopreport/{id}?int=${this.editedItem.id}`)
       this.closeDelete();
     },
 
